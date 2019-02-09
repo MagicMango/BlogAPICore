@@ -38,18 +38,19 @@ namespace BlogApi.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] BlogEntry value)
+        public StatusCodeResult Post([FromBody] BlogEntry value)
         {
             using (db)
             {
                 db.BlogEntrys.Add(value);
                 db.SaveChanges();
+                return Ok();
             }
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] BlogEntry value)
+        public StatusCodeResult Put(int id, [FromBody] BlogEntry value)
         {
             using (db)
             {
@@ -58,23 +59,25 @@ namespace BlogApi.Controllers
                 a.Entry = value.Entry;
                 a.Subject = value.Subject;
                 db.SaveChanges();
+                return Ok();
             }
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public StatusCodeResult Delete(int id)
         {
             using (db)
             {
                 BlogEntry a = db.BlogEntrys.Find(id);
                 db.BlogEntrys.Remove(a);
                 db.SaveChanges();
+                return Ok();
             }
         }
 
         [HttpPut("/{blogId}/{id}")]
-        public void Put(int blogId, int id, [FromBody] Comment value)
+        public StatusCodeResult Put(int blogId, int id, [FromBody] Comment value)
         {
             using (db)
             {
@@ -83,11 +86,12 @@ namespace BlogApi.Controllers
                 c.Subject = value.Subject;
                 c.Entry = value.Entry;
                 db.SaveChanges();
+                return Ok();
             }
         }
 
         [HttpDelete("/{blogId}/{id}")]
-        public void Delete(int blogId, int id)
+        public StatusCodeResult Delete(int blogId, int id)
         {
             using (db)
             {
@@ -95,16 +99,18 @@ namespace BlogApi.Controllers
                 Comment c = a.Comments.Find(x => x.Id == id);
                 db.Comments.Remove(c);
                 db.SaveChanges();
+                return Ok();
             }
         }
 
         [HttpPost("/{blogId}")]
-        public void Post(int blogId, [FromBody] Comment value)
+        public StatusCodeResult Post(int blogId, [FromBody] Comment value)
         {
             using (db)
             {
                 db.Comments.Add(value);
                 db.SaveChanges();
+                return Ok();
             }
         }
 

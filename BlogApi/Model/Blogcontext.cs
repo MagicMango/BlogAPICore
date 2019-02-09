@@ -10,10 +10,7 @@ namespace BlogApi.Model
         public DbSet<BlogEntry> BlogEntrys { get; set; }
         public DbSet<Comment> Comments { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseMySQL("server=raspbx;database=BlogDB;user=BlogUser;password=u}[kT7Y@[`Dv9Xm4");
-        }
+        public BlogContext(DbContextOptions options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

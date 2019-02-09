@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogApi
 {
@@ -20,7 +21,7 @@ namespace BlogApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddDbContext<BlogContext>();
+            services.AddDbContext<BlogContext>(options => options.UseMySQL(Configuration.GetConnectionString("default")));
             services.AddCors();
         }
 
