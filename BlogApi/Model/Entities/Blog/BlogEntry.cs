@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BlogApi.Model.Entities
 {
@@ -11,8 +12,12 @@ namespace BlogApi.Model.Entities
         }
 
         public int Id { set; get; }
+        [Required]
         public int AuthorId { get; set; }
+        [Required]
         public DateTime InsertDate { get; set; }
+        [Required]
+        [MinLength(5), MaxLength(512)]
         public string Subject { get; set; }
         public string Entry { get; set; }
         public string Categories { get; set; }

@@ -1,5 +1,6 @@
 ﻿using BlogApi.Model;
 using BlogApi.Model.Entities;
+using BlogApi.Model.Logging;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,51 +9,45 @@ namespace BlogApi.Controllers
 {
     [Route("api/authors")]
     [ApiController]
-    public class AuthorController : ControllerBase
+    public class AuthorController : Controller
     {
-        private BlogContext db;
-
-        public AuthorController(BlogContext context)
-        {
-            db = context;
-        }
+        public AuthorController(BlogContext context, ILog logger): base(context, logger){   }
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<Author>> Get()
         {
-            using (db)
-            {
-                return db.Authors.ToList();
-            }
+            return UseDatabaseWithValidModel(() =>
+                {
+                   return new ActionResult<IEnumerable<Author>>(db.Authors.ToList());
+                }
+            );
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<Author> Get(int id)
         {
-            using (db)
-            {
-                return db.Authors.Find(id);
-            }
+            return UseDatabaseWithValidModel(() =>
+                new ActionResult<Author>(db.Authors.Find(id))
+            );
         }
 
         // POST api/values
         [HttpPost]
-        public StatusCodeResult Post([FromBody] Author value)
+        public ActionResult Create([FromBody] Author value)
         {
-            using (db)
-            {
+            return UseDatabaseWithValidModel(() => {
                 db.Authors.Add(value);
                 db.SaveChanges();
                 return Ok();
-            }
+            }); 
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public StatusCodeResult Put(int id, [FromBody] Author value)
+        public ActionResult Put(int id, [FromBody] Author value)
         {
-            using (db)
+            return UseDatabaseWithValidModel(() =>
             {
                 Author a = db.Authors.Find(id);
                 a.Birth = value.Birth;
@@ -61,20 +56,19 @@ namespace BlogApi.Controllers
                 a.Lastname = value.Lastname;
                 db.SaveChanges();
                 return Ok();
-            }
+            });
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public StatusCodeResult Delete(int id)
+        public ActionResult Delete(int id)
         {
-            using (db)
-            {
+            return UseDatabaseWithValidModel(()=> {
                 Author a = db.Authors.Find(id);
                 db.Authors.Remove(a);
                 db.SaveChanges();
                 return Ok();
-            }
+            });
         }
     }
 }

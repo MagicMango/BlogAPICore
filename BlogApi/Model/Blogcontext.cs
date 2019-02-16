@@ -10,7 +10,7 @@ namespace BlogApi.Model
         public DbSet<BlogEntry> BlogEntrys { get; set; }
         public DbSet<Comment> Comments { get; set; }
 
-        public BlogContext(DbContextOptions options) : base(options) { }
+        public BlogContext(DbContextOptions<BlogContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

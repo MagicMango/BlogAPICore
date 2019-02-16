@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using BlogApi.Model.Logging;
 
 namespace BlogApi
 {
@@ -21,7 +22,9 @@ namespace BlogApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddDbContext<BlogContext>(options => options.UseMySQL(Configuration.GetConnectionString("default")));
+            services.AddTransient<ILog, Logger>();
+            services.AddDbContext<BlogContext>(options => options.UseMySQL(Configuration.GetConnectionString("blog")));
+            services.AddDbContext<LogContext>(options => options.UseMySQL(Configuration.GetConnectionString("log")));
             services.AddCors();
         }
 
