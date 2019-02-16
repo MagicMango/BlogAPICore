@@ -32,8 +32,8 @@ namespace BlogApi.Controllers
             );
         }
 
-        // POST api/values
-        [HttpPost]
+        // POST apivalues
+        [HttpPost("create")]
         public ActionResult Create([FromBody] Author value)
         {
             return UseDatabaseWithValidModel(() => {
@@ -44,7 +44,7 @@ namespace BlogApi.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("{id}")]
+        [HttpPut("put/{id}")]
         public ActionResult Put(int id, [FromBody] Author value)
         {
             return UseDatabaseWithValidModel(() =>
@@ -60,7 +60,7 @@ namespace BlogApi.Controllers
         }
 
         // DELETE api/values/5
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public ActionResult Delete(int id)
         {
             return UseDatabaseWithValidModel(()=> {

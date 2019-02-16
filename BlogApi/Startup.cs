@@ -39,9 +39,11 @@ namespace BlogApi
             {
                 app.UseHsts();
             }
-            app.UseCors(builder =>
-                builder.WithOrigins("http://localhost:4200")
-                );
+            app.UseCors(builder => { 
+                builder.WithOrigins(new[] { "http://localhost:4200"});
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+            });
             app.UseHttpsRedirection();
             app.UseMvc();
             
