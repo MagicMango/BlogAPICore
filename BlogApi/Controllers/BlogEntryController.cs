@@ -66,7 +66,7 @@ namespace BlogApi.Controllers
                 return Ok();
             });
         }
-        [HttpPut("/{blogId}/{id}")]
+        [HttpPut("{blogId}/{id}")]
         public ActionResult Put(int blogId, int id, [FromBody] Comment value)
         {
             return UseDatabaseWithValidModel(() =>
@@ -94,7 +94,7 @@ namespace BlogApi.Controllers
             });
         }
 
-        [HttpDelete("/{blogId}/{id}")]
+        [HttpDelete("{blogId}/{id}")]
         public ActionResult Delete(int blogId, int id)
         {
            return UseDatabaseWithValidModel(() =>
@@ -113,7 +113,7 @@ namespace BlogApi.Controllers
                     }
                 });
         }
-        [HttpPost("/{blogId}")]
+        [HttpPost("{blogId}")]
         public ActionResult Post(int blogId, [FromBody] Comment value)
         {
             return UseDatabaseWithValidModel(() =>

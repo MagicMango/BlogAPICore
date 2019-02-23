@@ -50,10 +50,7 @@ namespace BlogApi.Controllers
             return UseDatabaseWithValidModel(() =>
             {
                 Author a = db.Authors.Find(id);
-                a.Birth = value.Birth;
-                a.EMail = value.EMail;
-                a.Firstname = value.Firstname;
-                a.Lastname = value.Lastname;
+                db.Entry(a).CurrentValues.SetValues(value);
                 db.SaveChanges();
                 return Ok();
             });

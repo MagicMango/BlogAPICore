@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using BlogApi.Model.Logging;
+using Newtonsoft.Json.Serialization;
 
 namespace BlogApi
 {
@@ -21,11 +22,15 @@ namespace BlogApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddTransient<ILog, Logger>();
-            services.AddDbContext<BlogContext>(options => options.UseMySQL(Configuration.GetConnectionString("blog")));
-            services.AddDbContext<LogContext>(options => options.UseMySQL(Configuration.GetConnectionString("log")));
-            services.AddCors();
+            services
+                .AddMvc()
+                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver())
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddTransient<ILog, Logger>()
+                .AddDbContext<BlogContext>(options => options.UseMySQL(Configuration.GetConnectionString("blog")))
+                .AddDbContext<LogContext>(options => options.UseMySQL(Configuration.GetConnectionString("log")))
+                .AddCors()
+                .AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
